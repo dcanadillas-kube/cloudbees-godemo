@@ -1,0 +1,30 @@
+apiVersion: skaffold/v1beta2
+kind: Config
+build:
+  artifacts:
+  - image: changeme
+    context: .
+    docker: {}
+  tagPolicy:
+    envTemplate:
+      template: '{{.DOCKER_REGISTRY}}/dcanadillas-kube/cloudbees-godemo:{{.VERSION}}'
+  local: {}
+deploy:
+  kubectl: {}
+profiles:
+- name: dev
+  build:
+    artifacts:
+    - docker: {}
+    tagPolicy:
+      envTemplate:
+        template: '{{.DOCKER_REGISTRY}}/dcanadillas-kube/cloudbees-godemo:{{.DIGEST_HEX}}'
+    local: {}
+  deploy:
+    helm:
+      releases:
+      - name: cloudbees-godemo
+        chartPath: charts/cloudbees-godemo
+        setValueTemplates:
+          image.repository: '{{.DOCKER_REGISTRY}}/dcanadillas-kube/cloudbees-godemo'
+          image.tag: '{{.DIGEST_HEX}}'
