@@ -1,0 +1,152 @@
+Step: build-step-credential-initializer:
+
+{"level":"warn","ts":1551105572.0681984,"logger":"fallback-logger","caller":"logging/config.go:65","msg":"Fetch GitHub commit ID from kodata failed: \"ref: refs/heads/test\" is not a valid GitHub commit ID"}
+{"level":"info","ts":1551105572.0688574,"logger":"fallback-logger","caller":"creds-init/main.go:40","msg":"Credentials initialized."}
+Step: build-step-git-source-0:
+
+{"level":"warn","ts":1551105572.6698391,"logger":"fallback-logger","caller":"logging/config.go:65","msg":"Fetch GitHub commit ID from kodata failed: \"ref: refs/heads/test\" is not a valid GitHub commit ID"}
+{"level":"info","ts":1551105573.3149118,"logger":"fallback-logger","caller":"git-init/main.go:92","msg":"Successfully cloned \"https://github.com/dcanadillas-kube/cloudbees-godemo.git\" @ \"7d0275f15c92ecc611a37439869685360bd46ffd\" in path \"/workspace\""}
+Step: build-step-jenkins:
+
+Picked up _JAVA_OPTIONS: -Xmx400m
+Started
+Running in Durability level: PERFORMANCE_OPTIMIZED
+  19.961 [id=24]	WARNING	i.f.k.c.i.VersionUsageUtils#alert: The client is using resource type 'customresourcedefinitions' with unstable version 'v1beta1'
+[Pipeline] node
+Running on Jenkins in /tmp/jenkinsTests.tmp/jenkins337609919484019337test/workspace/job
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withCredentials
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (CI Build and push snapshot)
+Stage "CI Build and push snapshot" skipped due to when conditional
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Release)
+[Pipeline] dir
+Running in /home/jenkins/go/src/github.com/dcanadillas-kube/cloudbees-godemo
+[Pipeline] {
+[Pipeline] git
+Cloning the remote Git repository
+Cloning repository https://github.com/dcanadillas-kube/cloudbees-godemo.git
+ > git init /home/jenkins/go/src/github.com/dcanadillas-kube/cloudbees-godemo # timeout=10
+Fetching upstream changes from https://github.com/dcanadillas-kube/cloudbees-godemo.git
+ > git --version # timeout=10
+ > git fetch --tags --progress https://github.com/dcanadillas-kube/cloudbees-godemo.git +refs/heads/*:refs/remotes/origin/*
+ > git config remote.origin.url https://github.com/dcanadillas-kube/cloudbees-godemo.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url https://github.com/dcanadillas-kube/cloudbees-godemo.git # timeout=10
+Fetching upstream changes from https://github.com/dcanadillas-kube/cloudbees-godemo.git
+ > git fetch --tags --progress https://github.com/dcanadillas-kube/cloudbees-godemo.git +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision 7d0275f15c92ecc611a37439869685360bd46ffd (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 7d0275f15c92ecc611a37439869685360bd46ffd
+ > git branch -a -v --no-abbrev # timeout=10
+ > git checkout -b master 7d0275f15c92ecc611a37439869685360bd46ffd
+Commit message: "Merge pull request #1 from dcanadillas-kube/newbranch"
+First time build. Skipping changelog.
+[Pipeline] sh
++ jx-release-version
++ echo 0.0.3
+[Pipeline] sh
++ cat VERSION
++ jx step tag --version 0.0.3
+Tag v0.0.3 created and pushed to remote origin
+[Pipeline] sh
++ make build
+CGO_ENABLED=0 GO15VENDOREXPERIMENT=1 go build -ldflags '' -o bin/cloudbees-godemo main.go
+[Pipeline] sh
++ cat VERSION
++ export VERSION=0.0.3
++ skaffold build -f skaffold.yaml
+time="2019-02-25T14:40:25Z" level=warning msg="config version (skaffold/v1beta2) out of date: upgrading to latest (skaffold/v1beta3)"
+Starting build...
+Building [changeme]...
+Sending build context to Docker daemon  525.8kBSending build context to Docker daemon  6.502MB
+Step 1/4 : FROM scratch
+ ---> 
+Step 2/4 : EXPOSE 8080
+ ---> Using cache
+ ---> 765f477ef688
+Step 3/4 : ENTRYPOINT /cloudbees-godemo
+ ---> Using cache
+ ---> 76dfa23f0863
+Step 4/4 : COPY ./bin/ /
+ ---> Using cache
+ ---> 6feaba740984
+Successfully built 6feaba740984
+The push refers to a repository [10.55.249.78:5000/dcanadillas-kube/cloudbees-godemo]
+46fb820b5589: Preparing
+46fb820b5589: Layer already exists
+0.0.3: digest: sha256:ec7fec2955af9fdc78996a24c96b0d55100eac9f5d8372a4490c4417ce7c5c8f size: 528
+Build complete in 334.235727ms
+Starting test...
+Test complete in 5.271µs
+changeme -> 10.55.249.78:5000/dcanadillas-kube/cloudbees-godemo:0.0.3
+[Pipeline] sh
++ cat VERSION
++ jx step post build --image 10.55.249.78:5000/dcanadillas-kube/cloudbees-godemo:0.0.3
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Promote to Environments)
+[Pipeline] dir
+Running in /home/jenkins/go/src/github.com/dcanadillas-kube/cloudbees-godemo/charts/cloudbees-godemo
+[Pipeline] {
+[Pipeline] sh
++ cat ../../VERSION
++ jx step changelog --version v0.0.3
+Using batch mode as inside a pipeline
+Generating change log from git ref 7d0275f15c92ecc611a37439869685360bd46ffd => 3d2006e4640f6baaf462df14737825bf9aec7d57
+Failed to enrich commits with issues: User.jenkins.io "" is invalid: metadata.name: Required value: name or generateName is required
+Failed to enrich commits with issues: User.jenkins.io "" is invalid: metadata.name: Required value: name or generateName is required
+Finding issues in commit messages using git format
+No release found for dcanadillas-kube/cloudbees-godemo and tag v0.0.3 so creating a new release
+Updated the release information at https://github.com/dcanadillas-kube/cloudbees-godemo/releases/tag/v0.0.3
+generated: /home/jenkins/go/src/github.com/dcanadillas-kube/cloudbees-godemo/charts/cloudbees-godemo/templates/release.yaml
+Created Release cloudbees-godemo-0-0-3 resource in namespace jx
+Updating PipelineActivity dcanadillas-kube-cloudbees-godemo-master-3 with version 0.0.3
+Updated PipelineActivities dcanadillas-kube-cloudbees-godemo-master-3 with release notes URL: https://github.com/dcanadillas-kube/cloudbees-godemo/releases/tag/v0.0.3
+[Pipeline] sh
++ jx step helm release
+No $CHART_REPOSITORY defined so using the default value of: http://jenkins-x-chartmuseum:8080
+Adding missing Helm repo: jenkins-x http://chartmuseum.jenkins-x.io
+Successfully added Helm repository jenkins-x.
+Adding missing Helm repo: releases http://jenkins-x-chartmuseum:8080
+Successfully added Helm repository releases.
+No $CHART_REPOSITORY defined so using the default value of: http://jenkins-x-chartmuseum:8080
+Uploading chart file cloudbees-godemo-0.0.3.tgz to http://jenkins-x-chartmuseum:8080/api/charts
+Received 201 response: {"saved":true}
+[Pipeline] sh
++ cat ../../VERSION
++ jx promote -b --all-auto --timeout 1h --version 0.0.3
+prow based install so skip waiting for the merge of Pull Requests to go green as currently there is an issue with gettingstatuses from the PR, see https://github.com/jenkins-x/jx/issues/2410
+Promoting app cloudbees-godemo version 0.0.3 to namespace jx-staging
+Created Pull Request: https://github.com/dcanadillas-kube/environment-dcanadillas-cb-gke1-staging/pull/3
+
+Pull Request https://github.com/dcanadillas-kube/environment-dcanadillas-cb-gke1-staging/pull/3 is merged at sha 1de84ac907a8d88139eedf5238116b4f5861165b
+Pull Request merged but we are not waiting for the update pipeline to complete!
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
